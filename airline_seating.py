@@ -6,6 +6,8 @@
 # 3 fá input frá notanda með sætinr, Taka frá sæti, if input er ákveðið þá setjum við X í staðinn. 
 # 4
 
+SEATS = [A,B,C,D,E,F,G,H,I,J]
+
 def get_number_of_rows():
     ''' returns a number of rows '''
     rows = input("Enter number of rows: ")
@@ -17,6 +19,10 @@ def get_number_of_seats():
     seats = input("Enter number of seats in each row: ")
 
     return seats
+
+def data_list():
+    pass
+
 
 
 
@@ -33,5 +39,5 @@ def main():
                 # ef sæti er ekki til
                     print("Seat number is invalid!")
 
-        else:
-            break
+    else:
+        break
