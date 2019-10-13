@@ -13,12 +13,11 @@ def get_number_of_seats():
 
     return seats
 
-def data_list(seats,rows):
+def data_list(rows,seats):
 
-    seat_list = SEAT_COL[:seats]
     row_list = []
     for i in range(0,rows):
-        row_list.append(seat_list)
+        row_list.append(SEAT_COL[:seats])
 
     return row_list
 
@@ -43,17 +42,22 @@ def print_plane(row_list):
 
     return
 
-
-def reserve_seat(row,seat,row_list):
+def is_seat_reserved(row,seat,row_list):
     
+    pass
+
+
+def reserve_seat(row,seat,row_list,reserved_seats):
+
     for i in range(0,len(row_list)):
-        if (i-1) == int(row):
-            # 
+
+        if i == row-1:
             for x in range(0,len(row_list[i])):
                 if row_list[i][x] == seat:
                     row_list[i][x] = "X"
+                    reserved_seats.append((row,seat))
 
-    return row_list
+    return row_list,reserved_seats
 
 
 
@@ -62,10 +66,11 @@ def reserve_seat(row,seat,row_list):
 
 
 def main():
-    seats = get_number_of_seats()
     rows = get_number_of_rows()
+    seats = get_number_of_seats()
 
     row_list = data_list(rows,seats)
+    reserved_seats = []
 
     print_plane(row_list)
     while True:
@@ -74,13 +79,28 @@ def main():
         if more_seats == "y":
             row_seat = input("Input seat number (row seat): ")
             row_seat = row_seat.split()
-            row_list = reserve_seat(row_seat[0],row_seat[1],row_list)
+
+            row = int(row_seat[0])
+            seat = row_seat[1]
+            
+            if (row,seat) in reserved_seats:
+                print("That seat is taken!")
+                continue
+
+            if (len(row_list) < row or seat not in row_list[row-1]):
+                print("Seat number is invalid!")
+                continue
+
+            reserve_seat_results = reserve_seat(row,seat,row_list,reserved_seats)
+            row_list = reserve_seat_results[0]
+            reserved_seats = reserve_seat_results[1]
+
             print_plane(row_list)
                 #     print("That seat is taken!")
                 # # ef sæti er ekki til
                 #     print("Seat number is invalid!")
 
-    # else:
-    #     break
+        else:
+            break
 
 main()
