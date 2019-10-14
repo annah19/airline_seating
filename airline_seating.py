@@ -41,7 +41,7 @@ def print_plane(row_list):
 
             # Find the middle in the seats
             if (len(row_list[i])-1) // 2 == x:
-                print(end=" ")
+                print(end="  ")
         
         print()
 
