@@ -1,22 +1,22 @@
 SEAT_COL = ['A','B','C','D','E','F','G','H','I','J']
 
 def get_number_of_rows():
-    ''' returns a number of rows '''
+    ''' Returns a number of rows '''
 
     rows = int(input("Enter number of rows: "))
 
     return rows
 
 def get_number_of_seats():
-    ''' returns a number of seats '''
+    ''' Returns a number of seats '''
 
     seats = int(input("Enter number of seats in each row: "))
 
     return seats
 
 def data_list(rows,seats):
-    '''Take in the row and seat from the user 
-    and return a list of list with seatnumber row-times'''
+    ''' Take in the row and seat from the user 
+        and return a list of list with seatnumber row-times'''
 
     row_list = []
 
@@ -28,8 +28,8 @@ def data_list(rows,seats):
     return row_list
 
 def print_plane(row_list):
-    '''Take the list of lists, prints out the seats 
-    in the plane with spaces and aisle'''
+    ''' Take the list of lists, prints out the seats 
+        in the plane with spaces and aisle'''
 
     # For every row 
     for i in range(0,len(row_list)):
@@ -49,15 +49,19 @@ def print_plane(row_list):
 
 
 def reserve_seat(row_seat,row_list,reserved_seats):
-    '''Checks if the seat is already taken or if 
+    ''' Checks if the seat is already taken or if 
         the seat number is in the input from the user. 
         Updates the row_list and reserved_seats list'''
 
     # We need to split the seat from the user input
     row_seat = row_seat.split()
-
-    # We make sure the row is a number not a string
-    row = int(row_seat[0])
+    try:
+        # We make sure the row is a number not a string
+        row = int(row_seat[0])
+    except ValueError:
+        print("Seat number is invalid!")
+        return
+        
     seat = row_seat[1]
             
     if (row,seat) in reserved_seats:
@@ -91,7 +95,7 @@ def reserve_seat(row_seat,row_list,reserved_seats):
     return True
 
 def reserving_seats(row_list, reserved_seats):
-    '''Ask the user for the seat number, 
+    ''' Ask the user for the seat number, 
         prints out an updated plane list if seat available'''
 
     row_seat = input("Input seat number (row seat): ")
@@ -110,15 +114,41 @@ def reserving_seats(row_list, reserved_seats):
 
     return 
             
+
+def count_seats(row_list):
+    ''' Returns a count of the seats in
+        the airplane'''
+
+    count = 0
+
+    for row in row_list:
+
+        for seat in row:
+            count += 1
+
+    return count
+    
+
 def more_seats(row_list, reserved_seats):
-    '''Allows the user to reserve more than one seat'''
+    ''' Allows the user to reserve more than 
+        one seat if there are any available '''
+    
+    total_seats = count_seats(row_list)
+
+    # We continue to let the user select more seats
+    # as long as there are any available
     while True:
+
+        if total_seats <= len(reserved_seats):
+            break
+
         more_seats = input("More seats (y/n)? ")
+
         if more_seats == "y":
             
             reserving_seats(row_list, reserved_seats)
 
-        elif more_seats == 'n':
+        else:
             break
 
     return row_list, reserved_seats
